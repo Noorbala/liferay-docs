@@ -140,6 +140,19 @@ root@deb-liferay:~# add-apt-repository --yes https://adoptopenjdk.jfrog.io/adopt
 ```shell
 root@deb-liferay:~# apt update -y
 root@deb-liferay:~# apt install adoptopenjdk-8-hotspot -y
+root@deb-liferay:~# update-alternatives --config java
+There are 3 choices for the alternative java (providing /usr/bin/java).
+
+  Selection    Path                                                Priority   Status
+------------------------------------------------------------
+* 0            /usr/lib/jvm/java-11-openjdk-amd64/bin/java          1111      auto mode
+  1            /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/java   1081      manual mode
+  2            /usr/lib/jvm/java-11-openjdk-amd64/bin/java          1111      manual mode
+  3            /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java       1071      manual mode
+
+Press <enter> to keep the current choice[*], or type selection number: 1
+update-alternatives: using /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/java to provide /usr/bin/java (java) in manual mode
+
 root@deb-liferay:~# java -version
 openjdk version "1.8.0_282"
 OpenJDK Runtime Environment (AdoptOpenJDK)(build 1.8.0_282-b08)
