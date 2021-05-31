@@ -69,7 +69,7 @@ root@deb-liferay:~# mv /var/lib/postgresql/11/main /var/lib/postgresql/11/main.b
 root@deb-liferay:~# chown -Rf postgres:postgres /home/data/postgres
 root@deb-liferay:~# chmod 0700 /home/data/postgres
 ```
-- Edit configuration file and change default `data_directory` by adding bellow line at end of file after `# Add settings for extensions here` line like
+- Edit postgres configuration file (/etc/postgresql/11/main/postgresql.conf) and change default `data_directory` by adding bellow line at end of file after `# Add settings for extensions here` line like
 
 ```shell
 #------------------------------------------------------------------------------
