@@ -185,16 +185,21 @@ root@deb-liferay:~# ln -s /opt/liferay/tomcat-9.0.37 /opt/liferay/tomcat
 root@deb-liferay:~# /opt/liferay/tomcat/bin/startup.sh
 root@deb-liferay:~# tail -f /opt/liferay/tomcat/logs/catalina.out
 ```
-> Now, Go to http://SERVER-IP:8080 and finish setup of Liferay Portal.
+> Now, Go to SERVER-IP:8080 and finish setup of Liferay Portal.
+> if liferay isnot running check tomcat state with this command : root@deb-liferay:~# ps aux | grep tomcat
+> and check firewall setting. 
 ![](../images/setup-liferay.png)
 
 
+> Now restart tomcat :
+root@deb-liferay:~# /opt/liferay/tomcat/bin/shutdown.sh
+root@deb-liferay:~# /opt/liferay/tomcat/bin/startup.sh
 
 ### Install systemd daemon
 * Reset all settings in `setenv.sh` file
 ```shell
 root@deb-liferay:~# cat <<'EOF' > /opt/liferay/tomcat/bin/setenv.sh
-"CATALINA_OPTS="$CATALINA_OPTS"
+CATALINA_OPTS="$CATALINA_OPTS"
 EOF
 ```
 
@@ -243,14 +248,14 @@ root@deb-liferay:~# chown -Rf liferay:liferay /opt/liferay*
 root@deb-liferay:~# systemctl enable liferay
 Created symlink /etc/systemd/system/multi-user.target.wants/liferay.service → /etc/systemd/system/liferay.service.
 root@deb-liferay:~# systemctl start  liferay
-root@deb-liferay:~# root@deb-liferay:~# tail -f /opt/liferay/tomcat/logs/catalina.out
+root@deb-liferay:~# tail -f /opt/liferay/tomcat/logs/catalina.out
 ```
 
 ## Installing Nginx
 We need to install `nginx` to active `ssl` and some caching purpose
 
 ```shell
-root@deb-liferay:/etc/nginx/conf.d# apt install nginx
+root@deb-liferay:~# apt install nginx
 ```
 > configure nginx
 
@@ -283,14 +288,15 @@ location / {
           }
 }
 ```
-> **Note:** If you want to use server ip you must chane the `redirect.url.ips.allowed` property in `portal-ext.properties` like bellow and restart the liferay.
+> **Note:** for test nginx, Go to SERVER-IP in your browser and see "Welcome to nginx!" message.
+> **Note:** If you want to use "server ip" for call this portal ,you must create /opt/liferay/portal-ext.properties file and change the `redirect.url.ips.allowed` property in `portal-ext.properties` like bellow and restart the liferay.
 
 ```shell
 redirect.url.ips.allowed=127.0.0.1,SERVER-IP
 ```
 
 ## Securing
-We install `firewalld` and open ports fro only `http,htpps,ssh` services.
+We install `firewalld` and open ports for only `http,htpps,ssh` services.
 first disable `ufw` if its exist.
 
 ```shell
